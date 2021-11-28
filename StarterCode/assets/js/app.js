@@ -1,30 +1,5 @@
 // @TODO: YOUR CODE HERE!
-var svgHeight = window.innerHeight/1.5;
-var svgWidth = window.innerWidth/1.2;
-
-var margin = {
-    top: 20,
-    right: 40,
-    bottom: 80,
-    left: 100
-  };
-
-var width = svgWidth - margin.left - margin.right;
-var height = svgHeight - margin.top - margin.bottom;
-
-var svg = d3
-  .select("#scatter")
-  .append("svg")
-  .attr("width", svgWidth)
-  .attr("height", svgHeight);
-
-// Append an SVG group
-var scattergroup = svg.append("g")
-.attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-//initial params
-var chosenXAxis = "healthcare";
-var chosenYAxis = 'poverty';
+//define all functions first
 
 function xScale(data, chosenXAxis) {
   // create scales
@@ -128,7 +103,41 @@ circlesGroup
         });
     return circlesGroup;};
 
-
+// call all functions and plot the chart
+function makeResponsive() {
+      var svgArea = d3.select("body").select("svg");
+    
+      // clear svg is not empty
+      if (!svgArea.empty()) {
+        svgArea.remove();
+      }
+    
+      var svgHeight = window.innerHeight;
+        var svgWidth = window.innerWidth;
+    
+      var margin = {
+        top: 20,
+        right: 40,
+        bottom: 80,
+        left: 100
+      };
+    
+      var height = svgHeight - margin.top - margin.bottom;
+      var width = svgWidth - margin.left - margin.right;
+    
+      var svg = d3
+        .select("#scatter")
+        .append("svg")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight);
+    
+    // Append an SVG group
+      var scattergroup = svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    
+      //initial params
+      var chosenXAxis = "healthcare";
+      var chosenYAxis = 'poverty';
 //import data
 d3.csv('assets/data/data.csv').then((data) =>{
   console.log(data);
@@ -170,15 +179,13 @@ var circlesGroup = scattergroup.selectAll("circle")
 .attr("cy", d => yLinearScale(d[chosenYAxis]))
 .attr("r", 20)
 .attr("fill", "pink")
-.attr("opacity", ".5");
-
-create circle text
-var circleText=scattergroup.append('text')
+.attr("opacity", ".5")
+.append('text')
 .attr("x", d => xLinearScale(d[chosenXAxis]))
 .attr("y", d => yLinearScale(d[chosenYAxis]))
 .attr("dy", ".35em") 
 .text(d=>d.abbr);
-           
+
 
 // Create group for two x_axis labels
 var labelsGroupx = scattergroup.append("g")
@@ -255,7 +262,7 @@ labelsGroupx.selectAll("text")
 
     // updates tooltips with new info
         
-    circlesGroup=updateToolTip(chosenXAxis, chosenYAxis, circlesGroup,circle, circleText);});
+    circlesGroup=updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);});
 
 
     //y axis labels even listener
@@ -288,10 +295,8 @@ labelsGroupx.selectAll("text")
         circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis,chosenYAxis);
 
          // updates tooltips with new info
-
-        circleText = renderText(circleText, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
         
-        circlesGroup=updateToolTip(chosenXAxis, chosenYAxis, circlesGroup,circle, circleText);});
+        circlesGroup=updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);});
 
 });
 

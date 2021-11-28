@@ -182,11 +182,11 @@ circlesGroup.on("mouseover", function (data) {
         .append("circle")
         .attr("cx", d => xLinearScale(d[chosenXAxis]))
         .attr("cy", d => yLinearScale(d[chosenYAxis]))
-        .attr("r", 12)
+        .attr("r", 15)
         .attr("fill", "pink")
         .attr("opacity", ".5")
         
-        var circletext= scattergroup.selectAll(null)
+        var circletext= scattergroup.selectAll('textCircle')
         .data(data)
         .enter()
         .append('text')
@@ -257,7 +257,7 @@ circlesGroup.on("mouseover", function (data) {
           
             circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
-            circletext = renderLabels(circleLabels, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+            circletext = renderLabels(circletext, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
             circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
           
@@ -296,7 +296,7 @@ circlesGroup.on("mouseover", function (data) {
 
                   circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
-                  circletext = renderLabels(circleLabels, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+                  circletext = renderLabels(circletext, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
       
                   circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 

@@ -71,6 +71,7 @@ function makeResponsive() {
     return circlesGroup;
   };
   
+  function renderLabels(circlesGroup, newXScale,chosenXAxis)
   
   function updateToolTip(chosenXAxis, circlesGroup) {
     // Conditional for X Axis.

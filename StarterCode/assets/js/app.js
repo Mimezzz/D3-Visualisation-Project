@@ -91,6 +91,15 @@ function renderCircles(circlesGroup, newXScale,chosenXAxis,newYScale, chosenYAxi
   return circlesGroup;
 };
 
+function renderLabels(circleLabels, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+
+  circleLabels.transition()
+      .duration(1000)
+      .attr("x", d => newXScale(d[chosenXAxis]))
+      .attr("y", d => newYScale(d[chosenYAxis]));
+
+  return circleLabels;
+};
 
 function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
   // Conditional for X Axis.
@@ -113,18 +122,23 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
   }
 
   var toolTip = d3.tip()
-  .attr('class','tooltip')
-  .offset([60,40])
-  
+  .attr("class", "tooltip")
+  .offset([80, -80])
+  .html(function (d) {
+      return (`${d.state}<br>${xlabel} ${d[chosenXAxis]}<br>${ylabel} ${d[chosenYAxis]}`);
+  });
 
-  circlesGroup
-    .on("mouseover", function(data) {
-        toolTip.style('display', block)
-          .html(`${xlabel}${data[chosenXAxis]}%<br>${ylabel}${data[chosenYAxis]}`);
-          })
-    .on("mouseout", function(data) {
-        toolTip.style('display', none);
-          });
+circlesGroup.call(toolTip);
+
+circlesGroup.on("mouseover", function (data) {
+  toolTip.show(data, this);
+})
+  // onmouseout event
+  .on("mouseout", function (data) {
+      toolTip.hide(data);
+  });
+
+    return circlesGroup;
 };
 
       
@@ -205,7 +219,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
       // append y axis
 
-          var labelsGroupy=scattergroup.append('text')
+          var labelsGroupy=scattergroup.append('g')
           .attr("transform", "rotate(-90)");
 
           var povertylabel=labelsGroupy.append('text')
